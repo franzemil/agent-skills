@@ -1,0 +1,6 @@
+# agent-skills build artifacts
+/target
+/.installer-state.json
+
+# macOS
+.DS_Store

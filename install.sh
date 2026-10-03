@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # agent-skills one-line installer.
 #
-#   curl -fsSL https://raw.githubusercontent.com/OWNER/agent-skills/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/franzemil/agent-skills/main/install.sh | bash
 #
 # Clones (or updates) the repo to ~/.agent-skills, obtains the installer binary
 # (prebuilt release → cargo build → plain-bash fallback), puts `agent-skills`
@@ -9,8 +9,7 @@
 set -euo pipefail
 
 # ------------------------------------------------------------------ config ---
-# TODO: set OWNER once the repo is pushed to GitHub.
-REPO_URL="${AGENT_SKILLS_REPO:-https://github.com/OWNER/agent-skills.git}"
+REPO_URL="${AGENT_SKILLS_REPO:-https://github.com/franzemil/agent-skills.git}"
 INSTALL_DIR="${AGENT_SKILLS_HOME:-$HOME/.agent-skills}"
 BIN_DIR="${AGENT_SKILLS_BIN:-$HOME/.local/bin}"
 BIN_NAME="agent-skills"

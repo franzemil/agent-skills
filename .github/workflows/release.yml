@@ -18,9 +18,9 @@ jobs:
             target: aarch64-apple-darwin
           - os: macos-latest
             target: x86_64-apple-darwin
-          - os: ubuntu-latest
+          - os: ubuntu-latest          # x86_64 host, native musl build
             target: x86_64-unknown-linux-musl
-          - os: ubuntu-latest
+          - os: ubuntu-24.04-arm        # native arm64 host, musl build
             target: aarch64-unknown-linux-musl
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
-      - name: Install musl cross tools (linux)
+      - name: Install musl tools (linux)
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y musl-tools
 
@@ -42,7 +42,12 @@ jobs:
           cd target/${{ matrix.target }}/release
           tar -czf ../../../agent-skills-${{ matrix.target }}.tar.gz agent-skills
           cd ../../..
-          shasum -a 256 agent-skills-${{ matrix.target }}.tar.gz > agent-skills-${{ matrix.target }}.tar.gz.sha256
+          # macOS has shasum, Linux has sha256sum
+          if command -v shasum >/dev/null 2>&1; then
+            shasum -a 256 agent-skills-${{ matrix.target }}.tar.gz
+          else
+            sha256sum agent-skills-${{ matrix.target }}.tar.gz
+          fi > agent-skills-${{ matrix.target }}.tar.gz.sha256
 
       - name: Upload to release
         uses: softprops/action-gh-release@v2
